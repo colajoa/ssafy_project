@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.dao.UserDao">
+    <select id="getLoginUser" parameterType="string" resultType="UserDto">
+        <![CDATA[ 
+            select *
+            from user 
+            where id = #{id}
+        ]]>
+    </select>
+
+    <update id="saveRefreshToken" parameterType="map">
+        <![CDATA[ 
+            update user
+            set token = #{token}
+            where id = #{userId}
+        ]]>
+    </update>
+
+    <select id="getRefreshToken" parameterType="string" resultType="string">
+        <![CDATA[ 
+            select token
+            from user
+            where id = #{userId}
+        ]]>
+    </select>
+
+    <update id="deleteRefreshToken" parameterType="map">
+        <![CDATA[ 
+            update user
+            set token = #{token, jdbcType=VARCHAR}
+            where id = #{userId}
+        ]]>
+    </update>
+
+    <insert id="insertUser" parameterType="UserDto">
+        <![CDATA[ 
+            insert into user(id, pwd, name, phone_number, role) 
+            values(#{id}, #{pwd}, #{name}, #{phone_number}, "user")
+        ]]>
+    </insert>
+
+    <select id="getUserInfo" parameterType="string" resultType="UserDto">
+        <![CDATA[ 
+            select id, name, phone_number, role from user where id = #{userId}
+        ]]>
+    </select>
+
+    <update id="updateUser" parameterType="UserDto">
+        <![CDATA[
+            update user
+            set name = #{name}, phone_number = #{phone_number}
+            where id = #{id} 
+        ]]>
+    </update>
+
+    <delete id="deleteUser" parameterType="UserDto">
+        <![CDATA[ 
+            delete from user
+            where id = #{id}
+        ]]>
+    </delete>
+
+    <select id="findId" parameterType="UserDto" resultType="string">
+        <![CDATA[ 
+            select id from user
+            where name = #{name} and phone_number = #{phone_number}
+        ]]>
+    </select>
+
+    <select id="findPwd" parameterType="UserDto" resultType="string">
+        <![CDATA[
+            select pwd
+            from user
+            where id = #{id} and name = #{name} and phone_number = #{phone_number}
+        ]]>
+    </select>
+
+    <select id="getPassword" parameterType="string" resultType="string">
+        <![CDATA[ 
+            select pwd from user where id=#{id}
+        ]]>
+    </select>
+
+    <update id="modifyPwd" parameterType="UserDto">
+        <![CDATA[ 
+            update user
+            set pwd = #{pwd}
+            where id=#{id}
+        ]]>
+    </update>
+
+    <select id="countById" parameterType="string" resultType="int">
+        <![CDATA[ 
+            select count(*)
+            from user
+            where id = #{id}
+        ]]>
+    </select>
+</mapper>
